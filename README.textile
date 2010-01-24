@@ -1,20 +1,24 @@
 h2. README
 
-# Create your project
+*01. Create your Django project*
 
-<pre><code>django-admin.py startproject ona</pre><code>
+<pre><code>django-admin.py startproject ona</code></pre>
 
-2) Test it
-python manage.py runserver
+*02. Test it*
+
+<pre><code>python manage.py runserver</code></pre>
 
 3) After you configure, syncdb
-python manage.py syncdb
+
+<pre><code>python manage.py syncdb</code></pre>
 
 4) create an application, call it polls
-python manage.py startapp polls
+
+<pre><code>python manage.py startapp polls</code></pre>
 
 5) define two models in models.py
-class Project(models.Model):
+
+<pre><code>class Project(models.Model):
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     active_flag = models.BooleanField()
@@ -23,82 +27,98 @@ class Vote(models.Model):
     project = models.ForeignKey(Project)
     choice = models.IntegerField()
     #category = models.CharField(max_length=200)
-    #user_ip = models.CharField(max_length=200)
+    #user_ip = models.CharField(max_length=200)</code></pre>
 
 6) add line to settings.py as an installed app
-'ona.polls',
+
+<pre><code>'ona.polls',</code></pre>
 
 7) sync your db
-python manage.py syncdb
+
+<pre><code>python manage.py syncdb</code></pre>
 
 8) add a string representation of your object to the model project
-def __unicode__(self):
-    return self.title
+
+<pre><code>def __unicode__(self):
+    return self.title</code></pre>
 
 9) add to settings.py as an installed app
-django.contrib.admin
+
+<pre><code>django.contrib.admin</code></pre>
 
 10) sync db
-python manage.py syncdb
+
+<pre><code>python manage.py syncdb</code></pre>
 
 11) enable admin. in urls.py, uncomment
-from django.contrib import admin
-admin.autodiscover()
+
+<pre><code>from django.contrib import admin
+admin.autodiscover()</code></pre>
 
 **** and *****
-(r'^admin/', include(admin.site.urls)),
+
+<pre><code>(r'^admin/', include(admin.site.urls)),</code></pre>
 
 12) fire up the server, and log in
-python manage.py runserver
+
+<pre><code>python manage.py runserver</code></pre>
 
 13) add your app to the admin. create a file called admin.py in your project (make joke about conventions), and add:
-from ona.polls.models import Project
+
+<pre><code>from ona.polls.models import Project
 from django.contrib import admin
 
-admin.site.register(Project)
+admin.site.register(Project)</code></pre>
 
 14) add vote to the admin.py file so we can see associations
-from ona.polls.models import Vote
-admin.site.register(Vote)
+
+<pre><code>from ona.polls.models import Vote
+admin.site.register(Vote)</code></pre>
 
 15) Add the urls we need for the rest of our app urls.py
-(r'^admin/', include(admin.site.urls)),
+
+<pre><code>(r'^admin/', include(admin.site.urls)),
 (r'^polls/$', 'ona.polls.views.index'),
 (r'^polls/(?P<poll_id>\d+)/$', 'ona.polls.views.detail'),
 (r'^polls/(?P<poll_id>\d+)/vote/$', 'ona.polls.views.vote'),
 (r'^polls/(?P<poll_id>\d+)/data.xml$', 'ona.polls.views.data'),
 (r'^crossdomain.xml$', 'ona.polls.views.crossdomain'),
-(r'^pages/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT }),
+(r'^pages/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT }),</code></pre>
 
 16) create a view. in views.py
-from django.http import HttpResponse
+
+<pre><code>from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the poll index.")
+    return HttpResponse("Hello, world. You're at the poll index.")</code></pre>
 
 17) add a new method to your views.py, to see how django passes parameters
-def detail(request, poll_id):
-    return HttpResponse("You're looking at poll %s." % poll_id)
+
+<pre><code>def detail(request, poll_id):
+    return HttpResponse("You're looking at poll %s." % poll_id)</code></pre>
 
 18) Add a bunch of stuff up at the top of views.py we will need later
-from django.shortcuts import get_object_or_404, render_to_response
+
+<pre><code>from django.shortcuts import get_object_or_404, render_to_response
 from ona.polls.models import Project, Vote
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from django.db.models import Sum
+from django.db.models import Sum</code></pre>
 
 19) In sttings.py, let's set a path to our templates folder and add a setting for our static pages
 
-TEMPLATE_DIRS =  "/Path/to/your/stuff"
-STATIC_DOC_ROOT = "/Path/to/your/stuff"
+<pre><code>TEMPLATE_DIRS =  "/Path/to/your/stuff"
+STATIC_DOC_ROOT = "/Path/to/your/stuff"</code></pre>
 
 20) In our views.py, let's change our index view to pull some real data
-def index(request):
+
+<pre><code>def index(request):
     projects = Project.objects.all().order_by('-pub_date')[:5]
-    return render_to_response('polls/index.html', {'projects': projects})
+    return render_to_response('polls/index.html', {'projects': projects})</code></pre>
 
 21) and create an index.html file
-{% if projects %}
+
+<pre><code>{% if projects %}
     <ul>
     {% for project in projects %}
         <li>{{ project.title }}</li>
@@ -106,40 +126,46 @@ def index(request):
     </ul>
 {% else %}
     <p>No projects are available.</p>
-{% endif %}
+{% endif %}</code></pre>
 
 22) tweak our details method in views.py 
-def detail(request, poll_id):
+
+<pre><code>def detail(request, poll_id):
     p = Project.objects.get(pk=poll_id)
     total = p.vote_set.count()
-    return render_to_response('polls/detail.html', {'project': p, 'vote_total': total, })
+    return render_to_response('polls/detail.html', {'project': p, 'vote_total': total, })</code></pre>
 
 23) add a votes method to views.py
-def vote(request, poll_id):
+
+<pre><code>def vote(request, poll_id):
     p = get_object_or_404(Project, pk=poll_id)
     v = p.vote_set.create(choice = request.POST['data'])
     v.save()
-    return HttpResponse(status=200)
+    return HttpResponse(status=200)</code></pre>
 
 24) add a data method to views.py
-def data(request, poll_id):
+
+<pre><code>def data(request, poll_id):
     p = Project.objects.get(pk=poll_id)
     total = p.vote_set.aggregate(Sum('choice'))
-    return render_to_response('polls/data.xml', {'project': p, 'vote_total': total['choice__sum'], }, mimetype="text/xml")
+    return render_to_response('polls/data.xml', {'project': p, 'vote_total': total['choice__sum'], }, mimetype="text/xml")</code></pre>
 
 25) create a data.xml file
-<?xml version="1.0" encoding="UTF-8"?>
+
+<pre><code><?xml version="1.0" encoding="UTF-8"?>
 <results>
 <project>{{ project }}</project>
 <totals>{{ vote_total }}</totals>
-</results>
+</results></code></pre>
 
 26) create a crossdomain.xml method
-def crossdomain(request):
-    return HttpResponse('<?xml version=\"1.0\"?><cross-domain-policy><allow-access-from domain=\"*\" /></cross-domain-policy>', mimetype="text/xml")
+
+<pre><code>def crossdomain(request):
+    return HttpResponse('<?xml version=\"1.0\"?><cross-domain-policy><allow-access-from domain=\"*\" /></cross-domain-policy>', mimetype="text/xml")</code></pre>
 
 27) extra credit... it votes up, but not down. how to fix?
-def vote(request, poll_id):
+
+<pre><code>def vote(request, poll_id):
     p = get_object_or_404(Project, pk=poll_id)
     if request.POST['data'] == "0":
         value = -1
@@ -147,11 +173,12 @@ def vote(request, poll_id):
         value = 1
     v = p.vote_set.create(choice = value)
     v.save()
-    return HttpResponse(status=200)
+    return HttpResponse(status=200)</code></pre>
 
 
 28) create a test.py script
-import sys, urllib2, urllib
+
+<pre><code>import sys, urllib2, urllib
 
 url = 'http://localhost:8000/polls/1/vote/'
 
@@ -163,5 +190,4 @@ while 1:
     data = fd.read(1024)
     if not len(data):
         break
-    sys.stdout.write(data)
-
+    sys.stdout.write(data)</code></pre>
