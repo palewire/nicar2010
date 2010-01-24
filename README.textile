@@ -1,4 +1,6 @@
-h2. README
+h1. README
+
+A guide, by "Aron Pilhofer":http://github.com/pilhofer.
 
 *01. Create your Django project*
 
