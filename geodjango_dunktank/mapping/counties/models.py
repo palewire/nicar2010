@@ -23,12 +23,12 @@ class County(models.Model):
     simple_polygon_4269 = models.MultiPolygonField(srid=4269, 
         null=True, blank=True)
     
-    # A hidden copy of the boundaries in the coordinate system
+    # A copy of the boundaries in the coordinate system
     # favored by OpenLayers' implementation of Google Maps
     polygon_900913 = models.MultiPolygonField(srid=900913,
-        null=True, blank=True, editable=False)
+        null=True, blank=True)
     simple_polygon_900913 = models.MultiPolygonField(srid=900913,
-        null=True, blank=True, editable=False)
+        null=True, blank=True)
     
     # Meta
     created = models.DateTimeField(auto_now_add=True)
@@ -88,6 +88,10 @@ class County(models.Model):
 class State(models.Model):
     """
     One of these United States.
+    
+    Mostly just to demostrate how you can link models together. If you were
+    doing this for real, you'd probably want to put some polygon fields on
+    this guy too.
     """
     name = models.CharField(max_length=150)
     slug = models.SlugField()
