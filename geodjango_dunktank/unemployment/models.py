@@ -40,6 +40,7 @@ class CountyByMonth(models.Model):
         """
         Return the month in AP style.
         """
+        import datetime
         from django.utils.dateformat import format
         return format(datetime.date(2010, self.month, 01), 'N')
         
