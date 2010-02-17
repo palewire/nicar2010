@@ -19,8 +19,8 @@ class CountyByMonth(models.Model):
     unemployment_rate = models.FloatField()
 
     # The boring stuff
-    is_seasonally_adjusted = models.BooleanField()
-    is_preliminary = models.BooleanField()
+    is_seasonally_adjusted = models.BooleanField('seasonally adjusted')
+    is_preliminary = models.BooleanField('preliminary')
     benchmark = models.CharField(max_length=150)
     
     # Managers
