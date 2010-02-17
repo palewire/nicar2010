@@ -1,0 +1,11 @@
+h2. California Unemployment numbers
+
+Statewide, Counties and MSAs since 1990
+
+Host:
+
+http://www.labormarketinfo.edd.ca.gov/?PageID=4&SubID=164
+
+CSV:
+
+http://www.calmis.ca.gov/file/lfhist/LabForce-CAMSACo.txt

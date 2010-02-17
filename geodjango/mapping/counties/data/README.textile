@@ -1,0 +1,5 @@
+h2. Census 2000 California Counties
+
+Downloaded from the U.S. Census Bureau:
+
+http://www.census.gov/geo/www/cob/co2000.html
