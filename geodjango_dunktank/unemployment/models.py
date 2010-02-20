@@ -44,3 +44,9 @@ class CountyByMonth(models.Model):
         from django.utils.dateformat import format
         return format(datetime.date(2010, self.month, 01), 'N')
         
+    def get_month_obj(self):
+        """
+        Return the month as a datetime object.
+        """
+        import datetime
+        return datetime.datetime(self.year, self.month, 1)

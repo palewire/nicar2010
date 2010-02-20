@@ -1,0 +1,51 @@
+{% extends "unemployment/base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<h1>California Unemployment</h1>
+<h2>{{ month|date:"F Y" }}</h2>
+
+
+<table width=600>
+<tr>
+    <td>
+    
+        <h3>Highest rate</h3>
+        <table border=1 cellpadding=8 cellspacing=4 width=250>
+            <tr>
+                <th align=left>County</th>
+                <th align=right>Rate</th>
+            </tr>
+            {% for object in object_list|dictsortreversed:"unemployment_rate"|slice:"5" %}
+            <tr>
+                <td>{{ object.county.name }}</td>
+                <td align=right>{{ object.unemployment_rate }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </td>
+    
+    <td>
+
+        <h3>Most unemployed</h3>
+        <table border=1 cellpadding=8 cellspacing=4 width=250>
+            <tr>
+                <th align=left>County</th>
+                <th align=right>Total</th>
+            </tr>
+            {% for object in object_list|dictsortreversed:"unemployment"|slice:"5" %}
+            <tr>
+                <td>{{ object.county.name }}</td>
+                <td align=right>{{ object.unemployment|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </td>
+
+</tr>
+</table>
+
+{% endblock %}

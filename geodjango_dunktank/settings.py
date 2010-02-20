@@ -1,5 +1,8 @@
 # Django settings for geodjango project.
 
+import os
+settings_dir = os.path.dirname(__file__)
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -66,9 +69,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'geodjango_dunktank.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(settings_dir, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -78,6 +79,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.gis',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'mapping.counties',
     'unemployment',
 )
