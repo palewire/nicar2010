@@ -11,12 +11,33 @@
 
 {% block content %}
 
-<h1>California Unemployment</h1>
-<h2>{{ month|date:"F Y" }}</h2>
+<div class="page-hed-wrap">
+    <h1 class="page-hed">California Unemployment</h1>
+</div>
+    
+<table>
+    <tr>
+        <td width=100 align=left class="month-browse">
+            {% if next_month %}
+            <a href="{% url unemployment-month-detail next_month.year next_month.month %}">
+                &laquo; {{ next_month|date:"N Y" }}
+            </a>
+            {% endif %}
+        </td>
+        <td width=400 align=center><p class="month-hed">{{ month|date:"F Y" }}</p></td>
+        <td width=100 align=right class="month-browse">
+            {% if previous_month %}
+            <a href="{% url unemployment-month-detail previous_month.year previous_month.month %}">
+                {{ previous_month|date:"N Y" }} &raquo;
+            </a>
+            {% endif %}
+        </td>
+    </tr>
+</table>
 
 <div id="bigmap" style="clear:both; height:600px; width:600; border:3px solid black; margin:0 0 20px 0;"></div>
 
-<table width=600 style="margin-top:10px;">
+<table width=600 style="margin-top:10px; margin-left:15px;">
 <tr>
     <td>
     
