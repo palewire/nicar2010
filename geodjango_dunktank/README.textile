@@ -1,17 +1,12 @@
 h1. The GeoDjango Dunktank
 
-This is a Django project prepared for the "2010 NICAR conference":http://data.nicar.org/CAR2010/
-in Phoenix, AZ.
+This is a Django project prepared for the "2010 NICAR conference":http://data.nicar.org/CAR2010/ in Phoenix, AZ.
 
-The objective is to demonstrate how "Django's geospatial extensions":http://geodjango.org/
-can be used to report the news.
+The objective is to demonstrate how "Django's geospatial extensions":http://geodjango.org/ can be used to report the news.
 
 !http://farm3.static.flickr.com/2768/4373159365_acc760501c_o.png(Maps)!
 
-The code here creates interactive maps of unemployment data that are the rough
-equal of the thematic and proporational symbol maps newspapers have created
-for years. The data is entirely from the public domain, and the maps are made
-by employing the OpenLayers library.
+The code here creates interactive maps of unemployment data that are the rough equal of the thematic and proporational symbol maps newspapers have created for years. The data is entirely from the public domain, and the maps are made by employing the OpenLayers library.
 
 h3. *Prerequisites you need to install yourself*
 
