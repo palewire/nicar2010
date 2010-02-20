@@ -6,7 +6,7 @@ in Phoenix, AZ.
 The objective is to demonstrate how "Django's geospatial extensions":http://geodjango.org/
 can be used to report the news.
 
-!http://farm3.static.flickr.com/2768/4373159365_f8359c7d9e_o.png(Maps)!
+<p><img src="http://farm3.static.flickr.com/2768/4373159365_f8359c7d9e_o.png" title="Maps" alt="Maps" width="493" height="245" style="border: black solid 2px; /></p>
 
 The code here creates interactive maps of unemployment data that are the rough
 equal of the thematic and proporational symbol maps newspapers have created
