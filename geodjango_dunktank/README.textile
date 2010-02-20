@@ -1,7 +1,12 @@
 h1. The GeoDjango Dunktank
 
-This is a Django project prepared for the "2010 NICAR conference":http://data.nicar.org/CAR2010/ in Phoenix, AZ.
-The objective is to demonstrate how "Django's geospatial extensions":http://geodjango.org/ can be used to report the news.
+This is a Django project prepared for the "2010 NICAR conference":http://data.nicar.org/CAR2010/
+in Phoenix, AZ.
+
+The objective is to demonstrate how "Django's geospatial extensions":http://geodjango.org/
+can be used to report the news.
+
+!http://farm3.static.flickr.com/2768/4373159365_f8359c7d9e_o.png(Maps)!
 
 The code here creates interactive maps of unemployment data that are the rough
 equal of the thematic and proporational symbol maps newspapers have created
@@ -21,7 +26,7 @@ h3. *Pull down the code from Github*
 
 h3. *Switch to your postgres user and create a new database for this project*
 
-h5. This will vary slightly depending on your OS, how your PostgreSQL user is configured and what the name of your postgis template is.
+h5. This will vary slightly depending on your setup.
 
 <pre><code>$ sudo su - postgres
 $ createdb nicar2010 -T template_postgis -E utf8</code></pre>
@@ -45,5 +50,7 @@ h3. Test the site locally
 h5. Run this and then opening your browser to http://localhost:8000
 
 <pre><code>$ python project/manage.py runserver</code></pre>
+
+h5. If what you see is interesting, crack the source code and take what you want.
 
 

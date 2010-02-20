@@ -23,7 +23,7 @@
     <tr>
         <td width=100 align=left class="month-browse">
             {% if next_month %}
-            <a href="{% url unemployment-month-detail next_month.year next_month.month %}">
+            <a href="{% url unemployment-month-detail next_month.year next_month.month %}?map={{ request.GET.map }}">
                 &laquo; {{ next_month|date:"N Y" }}
             </a>
             {% endif %}
@@ -31,7 +31,7 @@
         <td width=400 align=center><p class="month-hed">{{ month|date:"F Y" }}</p></td>
         <td width=100 align=right class="month-browse">
             {% if previous_month %}
-            <a href="{% url unemployment-month-detail previous_month.year previous_month.month %}">
+            <a href="{% url unemployment-month-detail previous_month.year previous_month.month %}?map={{ request.GET.map }}">
                 {{ previous_month|date:"N Y" }} &raquo;
             </a>
             {% endif %}
