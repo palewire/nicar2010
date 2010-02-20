@@ -3,7 +3,11 @@
 
 {% block extrajs %}
     <script type="text/javascript">
+        {% ifequal request.GET.map 'p' %}
+        {% include "unemployment/proportional_map.js" %}
+        {% else %}
         {% include "unemployment/thematic_map.js" %}
+        {% endifequal %}
     </script>
 {% endblock %}
 

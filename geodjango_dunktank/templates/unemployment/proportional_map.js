@@ -1,30 +1,36 @@
 {% load humanize %}
 var map;
 
-/* 
-    Configuration of the thematic map's stratification 
-    i.e. Which numbers go with which colors.
-*/
-var setRGB = function ( green ){
-    green = parseInt(green);
-    green += ""
-    rgb = 'rgb(220,' + green + ',0)'
-    return rgb;
-}
-var context = {
-    getColor: function(feature) {
-        var rate = feature.data.unemployment_rate;
-        var max_green = 255;
-        var min_green = 1;
-        var ceiling = 35;
-        if (rate > ceiling) { setRGB( max_green )}
-        var green = max_green - ((max_green - min_green) * (rate / ceiling))
-        return setRGB(green);
+function Geometry(symbol, maxSize, maxValue){
+    this.symbol = symbol;
+    this.maxSize = maxSize;
+    this.maxValue = maxValue;
+ 
+    this.getSize = function(value){
+        switch(this.symbol) {
+            case 'circle': // Returns radius of the circle
+            case 'square': // Returns length of a side
+                return Math.sqrt(value/this.maxValue)*this.maxSize;
+            case 'bar': // Returns height of the bar
+                return (value/this.maxValue)*this.maxSize;
+            case 'sphere': // Returns radius of the sphere
+            case 'cube': // Returns length of a side
+                return Math.pow(value/this.maxValue, 1/3)*this.maxSize;
+        }
     }
-};
+}
+ 
 
 /* Firing up the map */
 function load_map() {
+
+    var max_value = 500000;
+    var symbol = new Geometry('circle', 1, max_value);
+    var context = {
+        getSize: function(feature) {
+            return symbol.getSize(feature.data.unemployment) * Math.pow(2,map.getZoom()-1);
+        }
+    };
 
     // The boundaries of California
     var max_extent = new OpenLayers.Bounds(-15422000, 4500000, -10942000, 5271000);
@@ -43,24 +49,23 @@ function load_map() {
     map = new OpenLayers.Map('bigmap', options);
 
     /* Configuration of the map's cosmetic style '*/
-    var style = new OpenLayers.Style({
-        strokeColor : '#DDDDDD', 
-        strokeWidth: 1,
-        strokeOpacity: 0.4,
-        fillColor : "${getColor}", 
-        fillOpacity : 0.90, 
-        pointRadius : 3,
-        strokeLinecap: "round"
-    }, { context: context });
-
+    var template = {
+        strokeColor : 'rgb(220,0,0)', 
+        strokeWidth: 2,
+        strokeOpacity: 0.9,
+        fillColor : 'rgb(220,0,0)', 
+        fillOpacity : 0.5, 
+        pointRadius: "${getSize}"
+    };
+ 
+    // Assigning the feature style
+    var style = new OpenLayers.Style(template, {context: context});
     var styleMap = new OpenLayers.StyleMap({
         'default': style, 
-        'select': new OpenLayers.Style({
-            fillColor : "${getColor}",
-            fillOpacity : 0.98,
-            strokeWidth : 3,
-            strokeOpacity: 0.90
-            }, { context: context })
+        'select': {
+            fillColor: 'red',
+            fillOpacity: 0.75
+        }
     });
 
     // create Google Mercator layers
@@ -68,17 +73,18 @@ function load_map() {
         "Google Maps",
         {'sphericalMercator': true, type: G_PHYSICAL_MAP}
     );
-    map.addLayers([gmap]);
+    map.addLayers([gmap]); 
     
     // Creating a tool to read in WKT formatted geospatial data
     var wkt_f = new OpenLayers.Format.WKT();
     
     // Loop through all the counties and make a vector layer for each
     {% for object in object_list %}
-    var polygon_{{ object.county.id }} = wkt_f.read('{{ object.county.polygon_900913 }}');
-    polygon_{{ object.county.id }}.data = { 
+    var point_{{ object.county.id }} = wkt_f.read('{{ object.county.polygon_900913.centroid }}');
+    point_{{ object.county.id }}.data = { 
         'unemployment_rate': {{ object.unemployment_rate }},
-        'unemployment': "{{ object.unemployment|intcomma }}",
+        'unemployment': {{ object.unemployment }},
+        'clean_unemployment': "{{ object.unemployment|intcomma }}",
         'name': "{{ object.county.name }}"
         };
     {% endfor %}
@@ -87,7 +93,7 @@ function load_map() {
     var county_vector = new OpenLayers.Layer.Vector("Counties");
     county_vector.styleMap = styleMap;
     // Then add all the polygons to the vector layer
-    county_vector.addFeatures([{% for object in object_list %}polygon_{{ object.county.id }}{% if not forloop.last %}, {% endif %}{% endfor %}]);
+    county_vector.addFeatures([{% for object in object_list %}point_{{ object.county.id }}{% if not forloop.last %}, {% endif %}{% endfor %}]);
     
     // Hook some functions to the events that trigger when somebody mouses
     // over the counties on the map
@@ -117,7 +123,7 @@ function load_map() {
         popup = new OpenLayers.Popup.AnchoredBubble("chicken", 
                                 new OpenLayers.LonLat(-12590000, 5150000),
                                 new OpenLayers.Size(210,90), // Size of the bubble
-                                "<div class='bubblewrap'><p class='county-hed'>" + feature.data.name + "</p><p style='margin-bottom:0px;'>Rate:&nbsp;" + feature.data.unemployment_rate + "%</p><p style='margin:0;'>" + "Total:&nbsp;" + feature.data.unemployment + "</p>" ,
+                                "<div class='bubblewrap'><p class='county-hed'>" + feature.data.name + "</p><p style='margin-bottom:0px;'>Rate:&nbsp;" + feature.data.unemployment_rate + "%</p><p style='margin:0;'>" + "Total:&nbsp;" + feature.data.clean_unemployment + "</p>" ,
                                 null, 
                                 false, // closebox?
                                 onPopupClose // on close function
@@ -135,15 +141,14 @@ function load_map() {
                                 new OpenLayers.LonLat(-14006000, 3900000),
                                 new OpenLayers.Size(200, 80), // Size of the bubble
                                 "<div class='bubblewrap'>" + 
-                                "<p class='county-hed'>Thematic Map</strong>" +
-                                "<p style='margin:0;'><a href='{% url unemployment-month-detail month.year month.month %}?map=p'>Switch to proportional map &raquo;</a></p>" +
+                                "<p class='county-hed'>Proporational Map</strong>" +
+                                "<p style='margin:0;'><a href='{% url unemployment-month-detail month.year month.month %}'>Switch to thematic map &raquo;</a></p>" +
                                 "</div>",
                                 null, 
                                 false, 
                                 onPopupClose
                                 );
     map.addPopup(key_popup)
-
 
 
 };
