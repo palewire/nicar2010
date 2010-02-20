@@ -142,7 +142,7 @@ function load_map() {
                                 new OpenLayers.Size(200, 80), // Size of the bubble
                                 "<div class='bubblewrap'>" + 
                                 "<p class='county-hed'>Proporational Map</strong>" +
-                                "<p style='margin:0;'><a href='{% url unemployment-month-detail month.year month.month %}'>Switch to thematic map &raquo;</a></p>" +
+                                "<p class='month-browse' style='margin:0;'><a href='{% url unemployment-month-detail month.year month.month %}'>Switch to thematic map &raquo;</a></p>" +
                                 "</div>",
                                 null, 
                                 false, 
