@@ -74,7 +74,7 @@ class County(models.Model):
                 target = mp.wkt
             # Otherwise just save out right away
             else:
-                simple.transform(4269)
+                simple.transform(srid)
                 target = simple.wkt
             
             # Set the attribute

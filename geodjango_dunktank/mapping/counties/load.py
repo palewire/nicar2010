@@ -143,9 +143,18 @@ def extras():
         obj.polygon_900913 = obj.polygon_4269
         obj.set_simple_polygons()
 
+def all():
+    """
+    Wrap it all together and load everything
+    
+    Example usage:
+        
+        >> from mapping.counties import load; load.all()
 
-
-
+    """
+    shp()
+    fix_dupes()
+    extras()
 
 
 

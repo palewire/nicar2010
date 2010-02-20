@@ -80,7 +80,7 @@ function load_map() {
     
     // Loop through all the counties and make a vector layer for each
     {% for object in object_list %}
-    var point_{{ object.county.id }} = wkt_f.read('{{ object.county.polygon_900913.centroid }}');
+    var point_{{ object.county.id }} = wkt_f.read('{{ object.county.simple_polygon_900913.centroid }}');
     point_{{ object.county.id }}.data = { 
         'unemployment_rate': {{ object.unemployment_rate }},
         'unemployment': {{ object.unemployment }},
