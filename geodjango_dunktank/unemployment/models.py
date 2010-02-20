@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.gis.db import models
 from mapping.counties.models import County
 from unemployment.managers import *
@@ -40,7 +41,6 @@ class CountyByMonth(models.Model):
         """
         Return the month in AP style.
         """
-        import datetime
         from django.utils.dateformat import format
         return format(datetime.date(2010, self.month, 01), 'N')
         
@@ -48,5 +48,18 @@ class CountyByMonth(models.Model):
         """
         Return the month as a datetime object.
         """
-        import datetime
         return datetime.datetime(self.year, self.month, 1)
+        
+    def get_next_month(self):
+        """
+        Return the month after this one.
+        """
+        from dateutil.relativedelta import relativedelta
+        return self.get_month_obj() + relativedelta(months=+1)
+    
+    def get_previous_month(self):
+        """
+        Return the month before this one.
+        """
+        from dateutil.relativedelta import relativedelta
+        return self.get_month_obj() + relativedelta(months=-1)
