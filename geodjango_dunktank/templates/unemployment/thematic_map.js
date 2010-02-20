@@ -78,6 +78,7 @@ function load_map() {
     var polygon_{{ object.county.id }} = wkt_f.read('{{ object.county.polygon_900913 }}');
     polygon_{{ object.county.id }}.data = { 
         'unemployment_rate': {{ object.unemployment_rate }},
+        'unemployment': "{{ object.unemployment|intcomma }}",
         'name': "{{ object.county.name }}"
         };
     {% endfor %}
@@ -116,7 +117,7 @@ function load_map() {
         popup = new OpenLayers.Popup.AnchoredBubble("chicken", 
                                 new OpenLayers.LonLat(-12590000, 5150000),
                                 new OpenLayers.Size(210,90), // Size of the bubble
-                                "<div class='bubblewrap'><p class='county-hed'>" + feature.data.name + "</p><p>Rate:&nbsp;" + feature.data.unemployment_rate + "%</p>",
+                                "<div class='bubblewrap'><p class='county-hed'>" + feature.data.name + "</p><p style='margin-bottom:0px;'>Rate:&nbsp;" + feature.data.unemployment_rate + "%</p><p style='margin:0;'>" + "Total:&nbsp;" + feature.data.unemployment + "</p>" ,
                                 null, 
                                 false, // closebox?
                                 onPopupClose // on close function
