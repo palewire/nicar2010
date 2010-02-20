@@ -15,6 +15,7 @@ def index(request):
         object_list = CountyByMonth.unadjusted.latest()
     except CountyByMonth.DoesNotExist:
         raise Http404
+    
     # Add it to the context we'll pass out to the template
     context['object_list'] = object_list
     

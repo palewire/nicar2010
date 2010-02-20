@@ -1,13 +1,22 @@
 {% extends "unemployment/base.html" %}
 {% load humanize %}
 
+{% block extrajs %}
+    <script type="text/javascript">
+        {% include "unemployment/thematic_map.js" %}
+    </script>
+{% endblock %}
+
+{% block extrabody %}onload="load_map();"{% endblock %}
+
 {% block content %}
 
 <h1>California Unemployment</h1>
 <h2>{{ month|date:"F Y" }}</h2>
 
+<div id="bigmap" style="clear:both; height:600px; width:600; border:3px solid black; margin:0 0 20px 0;"></div>
 
-<table width=600>
+<table width=600 style="margin-top:10px;">
 <tr>
     <td>
     
