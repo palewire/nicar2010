@@ -12,12 +12,12 @@ h3. *Prerequisites you need to install yourself*
 
 * "git":http://git-scm.com/
 * "PostgreSQL":http://www.postgresql.org/ and its development headers
-* "GeoDjango":http://geodjango.org/docs/install.html, (This is the tricky one)
+* "GeoDjango":http://geodjango.org/docs/install.html (This is the tricky one)
 * "dateutil":http://labix.org/python-dateutil
 
 h3. *Pull down the code from Github*
 
-<pre><code>$ git clone git@github.com:palewire/nicar2010.git nicar2010</code></pre>
+<pre><code>$ git clone git://github.com/palewire/nicar2010.git nicar2010</code></pre>
 
 h3. *Switch to your postgres user and create a new database for this project*
 
