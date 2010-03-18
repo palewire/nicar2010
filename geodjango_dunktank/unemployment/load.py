@@ -8,7 +8,7 @@ def _get_csv():
     Wrangle the CSV file from our source file.
 
     I'm starting the name of the function with an underscore, because I don't
-    plan on calling it directory. Instead I'm going to use it a couple of 
+    plan on calling it directly. Instead I'm going to use it a couple of 
     times below in other functions.
     
     It's nice to write it up here separately because them I can save myself
